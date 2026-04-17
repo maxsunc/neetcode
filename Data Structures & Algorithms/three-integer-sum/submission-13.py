@@ -1,30 +1,28 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        # sort for free
-        # O (n^2) solution
-        # 
+        # find 3 numbers that sum up to 0
+        # sort for freee
+        # foreach value do a two sum on a sorted list iwth 2 pointer
         nums.sort()
         res = []
-        # for each value look for pairs that add up to -nums[i]
-        for i in range(0, len(nums)):
-            if i > 0 and nums[i] == nums[i-1]:
-                continue # skip duplicates
-            val = nums[i]
-            target = -val
+
+        for i, num in enumerate(nums):
+            # skip duplicates
+            if i > 0 and nums[i-1] == num:
+                continue
+            target = -num
             l,r = i + 1, len(nums) - 1
             while r > l:
-                summed = nums[l] + nums[r] 
-                if summed == target:
-                    res.append([nums[i],nums[l],nums[r]])
-                    # look at new elements
-                    oldVal = nums[l]
+                curSum = nums[l] + nums[r]
+                if curSum == target:
+                    res.append([num,nums[l],nums[r]])
                     r -= 1
                     l += 1
-                    # get rid of duplicates
-                    while l < r and nums[l] == oldVal:
+                    while l < len(nums) and nums[l-1] == nums[l]:
                         l += 1
-                elif summed > target:
+                elif curSum > target:
                     r -= 1
                 else:
                     l += 1
         return res
+                    # [-4,-1,-,1,0,1,2]
